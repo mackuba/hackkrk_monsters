@@ -108,7 +108,7 @@ class Game
 
   def textbox_content
     [
-      "jkli=move, q=quit",
+      "jkli=move, q=quit, space=pause",
       "HP: #{@player.hp}/#{@player.max_hp}",
       "XP: #{@player.xp}/#{@player.xp_for_next_level}",
       "Lvl: #{@player.level}",
@@ -123,6 +123,7 @@ class Game
       'k' => :move_down,
       'l' => :move_right,
       'i' => :move_up,
+      ' ' => :pause
       # Curses::KEY_LEFT => :move_left
       # 27 => :handle_arrow
     }
@@ -148,10 +149,16 @@ class Game
   # end
 
   def tick
+    return if @pause
+
     @objects.each { |o| o.live if o.alive? }
 
     random_event(MONSTER_SPAWN_RATE) { place_monster }
     random_event(FIRST_AID_DROP_RATE) { place_first_aid }
+  end
+
+  def pause
+    @pause = !@pause
   end
 
   def random_event(rate, &block)
