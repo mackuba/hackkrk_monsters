@@ -3,9 +3,9 @@ require 'player'
 require 'wall'
 
 class Game
-  attr_reader :objects, :width, :height, :exit_message
+  DIRECTIONS = [:up, :down, :left, :right]
 
-  [:move_left, :move_right, :move_up, :move_down].each { |d| define_method(d) { @player.send(d) }}
+  attr_reader :objects, :width, :height, :exit_message
 
   def initialize(width, height)
     @width = width
@@ -92,6 +92,12 @@ class Game
       # Curses::KEY_LEFT => :move_left
       # 27 => :handle_arrow
     }
+  end
+
+  DIRECTIONS.each do |dir|
+    define_method("move_#{dir}") do
+      @player.try_to_move(dir)
+    end
   end
 
   # def handle_arrow

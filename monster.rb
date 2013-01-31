@@ -18,7 +18,6 @@ class Monster < Creature
   end
 
   def perform_action
-    direction = [:move_up, :move_down, :move_left, :move_right].sample
-    send(direction)
+    try_to_move(Game::DIRECTIONS.sample)
   end
 end

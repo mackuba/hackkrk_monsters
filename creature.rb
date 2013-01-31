@@ -29,20 +29,17 @@ class Creature < GameObject
     end
   end
 
-  def move_up
-    try_to_move_to(@x, @y - 1)
+  def try_to_move(direction)
+    try_to_move_to(*location_in_direction(direction))
   end
 
-  def move_down
-    try_to_move_to(@x, @y + 1)
-  end
-
-  def move_left
-    try_to_move_to(@x - 1, @y)
-  end
-
-  def move_right
-    try_to_move_to(@x + 1, @y)
+  def location_in_direction(direction)
+    case direction
+    when :up then [@x, @y - 1]
+    when :down then [@x, @y + 1]
+    when :left then [@x - 1, @y]
+    when :right then [@x + 1, @y]
+    end
   end
 
   def attack(creature)
