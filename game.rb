@@ -1,11 +1,11 @@
-require 'monster'
+require 'hungry_monster'
 require 'player'
 require 'wall'
 
 class Game
   DIRECTIONS = [:up, :down, :left, :right]
 
-  attr_reader :objects, :width, :height, :exit_message
+  attr_reader :objects, :width, :height, :exit_message, :player
 
   def initialize(width, height)
     @width = width
@@ -41,7 +41,7 @@ class Game
   end
 
   def place_monster
-    monster = Monster.new(self, *random_empty_location_not_near_player)
+    monster = HungryMonster.new(self, *random_empty_location_not_near_player)
     @objects << monster
   end
 
