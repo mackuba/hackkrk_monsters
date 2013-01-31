@@ -18,4 +18,8 @@ class GameObject
   def alive?
     false
   end
+
+  def large_object?
+    true
+  end
 end

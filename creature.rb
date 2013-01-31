@@ -27,12 +27,16 @@ class Creature < GameObject
 
   def try_to_move_to(x, y)
     if @game.can_move_to?(x, y)
-      @x, @y = x, y
+      move_to(x, y)
     elsif object = @game.object_on_location(x, y)
       if object.alive? && wants_to_attack?(object)
         attack(object)
       end
     end
+  end
+
+  def move_to(x, y)
+    @x, @y = x, y
   end
 
   def try_to_move(direction)

@@ -1,3 +1,4 @@
+require 'first_aid'
 require 'hungry_monster'
 require 'player'
 require 'wall'
@@ -6,6 +7,7 @@ class Game
   DIRECTIONS = [:up, :down, :left, :right]
 
   MONSTER_SPAWN_RATE = 0.5
+  FIRST_AID_DROP_RATE = 0.1
 
   attr_reader :objects, :width, :height, :exit_message, :player
 
@@ -52,6 +54,11 @@ class Game
     @objects << @player
   end
 
+  def place_first_aid
+    first_aid = FirstAid.new(self, *random_empty_location_not_near_player)
+    @objects << first_aid
+  end
+
   def random_location(&block)
     begin
       x, y = rand(@width), rand(@height)
@@ -90,7 +97,11 @@ class Game
   end
 
   def textbox_content
-    "jkli=move, q=quit | HP: #{sprintf("%2d", @player.hp)} | Mon: #{monsters.count}"
+    [
+      "jkli=move, q=quit",
+      "HP: #{sprintf("%2d", @player.hp)}/#{sprintf("%2d", @player.max_hp)}",
+      "Mon: #{monsters.count}"
+    ].join(" | ")
   end
 
   def input_map
@@ -128,6 +139,7 @@ class Game
     @objects.each { |o| o.live if o.alive? }
 
     random_event(MONSTER_SPAWN_RATE) { place_monster }
+    random_event(FIRST_AID_DROP_RATE) { place_first_aid }
   end
 
   def random_event(rate, &block)
@@ -147,7 +159,7 @@ class Game
   end
 
   def location_empty?(x, y)
-    !object_on_location(x, y)
+    @objects.none? { |o| o.x == x && o.y == y && o.large_object? }
   end
 
   def location_not_near_player?(x, y)
