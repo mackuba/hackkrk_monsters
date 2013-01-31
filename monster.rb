@@ -1,20 +1,20 @@
 require 'creature'
 
 class Monster < Creature
-  def char
-    "&"
-  end
+  TYPES = [
+    [1, 20, '&', Curses::COLOR_MAGENTA],
+    [2, 30, '$', Curses::COLOR_BLUE],
+    [4, 40, '?', Curses::COLOR_CYAN],
+    [8, 60, '@', Curses::COLOR_RED]
+  ]
 
-  def speed
-    30
-  end
+  attr_reader :max_hp, :color, :speed, :char, :level
 
-  def max_hp
-    1
-  end
+  def initialize(game, x, y, level)
+    @level = level
+    @max_hp, @speed, @char, @color = TYPES[level - 1]
 
-  def color
-    Curses::COLOR_RED
+    super(game, x, y)
   end
 
   def wants_to_attack?(creature)

@@ -45,7 +45,7 @@ class Game
   end
 
   def place_monster
-    monster = HungryMonster.new(self, *random_empty_location_not_near_player)
+    monster = HungryMonster.new(self, *random_empty_location_not_near_player, monster_level)
     @objects << monster
   end
 
@@ -57,6 +57,17 @@ class Game
   def place_first_aid
     first_aid = FirstAid.new(self, *random_empty_location_not_near_player)
     @objects << first_aid
+  end
+
+  def monster_level
+    points = rand(1000) * @player.level
+
+    case
+      when points < 800 then 1
+      when points < 2000 then 2
+      when points < 3600 then 3
+      else 4
+    end
   end
 
   def random_location(&block)

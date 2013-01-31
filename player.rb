@@ -34,7 +34,7 @@ class Player < Creature
   def add_kill(victim)
     super
 
-    @xp += 1
+    @xp += victim.level
 
     level_up if @xp >= xp_for_next_level
   end
