@@ -2,6 +2,14 @@ require 'creature'
 require 'first_aid'
 
 class Player < Creature
+  attr_reader :xp
+
+  def initialize(*args)
+    super
+
+    @xp = 0
+  end
+
   def char
     "@"
   end
@@ -16,6 +24,12 @@ class Player < Creature
 
   def wants_to_attack?(creature)
     true
+  end
+
+  def add_kill(victim)
+    super
+
+    @xp += 1
   end
 
   def move_to(x, y)

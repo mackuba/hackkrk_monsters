@@ -87,8 +87,7 @@ class Game
     @objects.delete(object)
 
     if object == @player
-      @exit_message = "You're dead!"
-      quit
+      quit "You've died in a battle #{quit_message}!"
     end
   end
 
@@ -100,6 +99,7 @@ class Game
     [
       "jkli=move, q=quit",
       "HP: #{sprintf("%2d", @player.hp)}/#{sprintf("%2d", @player.max_hp)}",
+      "XP: #{sprintf("%3d", @player.xp)}",
       "Mon: #{monsters.count}"
     ].join(" | ")
   end
@@ -146,8 +146,18 @@ class Game
     block.call if rand < rate * sleep_time
   end
 
-  def quit
+  def quit(message = nil)
+    @exit_message = message || "You've retired #{quit_message}."
+
     Kernel.exit
+  end
+
+  def quit_message
+    case @player.kill_count
+      when 0 then "after killing no monsters at all - what a shame"
+      when 1 then "after killing just one monster"
+      else "after killing #{@player.kill_count} monsters"
+    end
   end
 
   def location_on_map?(x, y)

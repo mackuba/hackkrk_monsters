@@ -1,12 +1,13 @@
 require 'game_object'
 
 class Creature < GameObject
-  attr_reader :hp
+  attr_reader :hp, :kill_count
 
   def initialize(*args)
     super
 
     @hp = max_hp
+    @kill_count = 0
   end
 
   def max_hp
@@ -23,6 +24,10 @@ class Creature < GameObject
 
   def wants_to_attack?(creature)
     false
+  end
+
+  def add_kill(victim)
+    @kill_count += 1
   end
 
   def try_to_move_to(x, y)
@@ -53,14 +58,15 @@ class Creature < GameObject
   end
 
   def attack(creature)
-    creature.take_damage(strength)
+    creature.take_damage_from(self, strength)
   end
 
-  def take_damage(points)
+  def take_damage_from(attacker, points)
     @hp -= points
 
     if @hp <= 0
       @game.cleanup_object(self)
+      attacker.add_kill(self)
     end
   end
 
