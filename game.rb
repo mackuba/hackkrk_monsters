@@ -3,7 +3,7 @@ require 'player'
 require 'wall'
 
 class Game
-  attr_reader :objects, :width, :height
+  attr_reader :objects, :width, :height, :exit_message
 
   [:move_left, :move_right, :move_up, :move_down].each { |d| define_method(d) { @player.send(d) }}
 
@@ -11,6 +11,7 @@ class Game
     @width = width
     @height = height
     @objects = []
+    @exit_message = "Bye!"
 
     place_walls
     place_player
@@ -68,8 +69,13 @@ class Game
     0.01
   end
 
-  def exit_message
-    "Bye!"
+  def cleanup_object(object)
+    @objects.delete(object)
+
+    if object == @player
+      @exit_message = "You're dead!"
+      quit
+    end
   end
 
   def textbox_content
@@ -113,8 +119,12 @@ class Game
     (0...@width) === x && (0...@height) === y
   end
 
+  def object_on_location(x, y)
+    @objects.detect { |o| o.x == x && o.y == y }
+  end
+
   def location_empty?(x, y)
-    !@objects.any? { |o| o.x == x && o.y == y }
+    !object_on_location(x, y)
   end
 
   def location_not_near_player?(x, y)

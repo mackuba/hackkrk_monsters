@@ -9,6 +9,10 @@ class Monster < Creature
     30
   end
 
+  def max_hp
+    1
+  end
+
   def color
     Curses::COLOR_RED
   end
