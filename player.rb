@@ -12,4 +12,8 @@ class Player < Creature
   def max_hp
     10
   end
+
+  def wants_to_attack?(creature)
+    true
+  end
 end
