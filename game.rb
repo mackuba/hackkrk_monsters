@@ -5,6 +5,8 @@ require 'wall'
 class Game
   DIRECTIONS = [:up, :down, :left, :right]
 
+  MONSTER_SPAWN_RATE = 0.5
+
   attr_reader :objects, :width, :height, :exit_message, :player
 
   def initialize(width, height)
@@ -83,8 +85,12 @@ class Game
     end
   end
 
+  def monsters
+    objects.select { |o| o.is_a?(Monster) }
+  end
+
   def textbox_content
-    "j,k,l,i to move, q to quit  |  HP: #{@player.hp}"
+    "jkli=move, q=quit | HP: #{sprintf("%2d", @player.hp)} | Mon: #{monsters.count}"
   end
 
   def input_map
@@ -120,6 +126,12 @@ class Game
 
   def tick
     @objects.each { |o| o.live if o.alive? }
+
+    random_event(MONSTER_SPAWN_RATE) { place_monster }
+  end
+
+  def random_event(rate, &block)
+    block.call if rand < rate * sleep_time
   end
 
   def quit
