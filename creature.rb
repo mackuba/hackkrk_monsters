@@ -29,6 +29,20 @@ class Creature < GameObject
     true
   end
 
+  def speed
+    1
+  end
+
   def live
+    @life_counter ||= 0
+    @life_counter += 1
+
+    if @life_counter >= 1000.0 / speed
+      @life_counter = 0
+      perform_action
+    end
+  end
+
+  def perform_action
   end
 end

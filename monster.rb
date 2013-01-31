@@ -5,11 +5,15 @@ class Monster < Creature
     "&"
   end
 
+  def speed
+    30
+  end
+
   def color
     Curses::COLOR_RED
   end
 
-  def live
+  def perform_action
     direction = [:move_up, :move_down, :move_left, :move_right].sample
     send(direction)
   end
