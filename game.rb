@@ -98,8 +98,9 @@ class Game
   def textbox_content
     [
       "jkli=move, q=quit",
-      "HP: #{sprintf("%2d", @player.hp)}/#{sprintf("%2d", @player.max_hp)}",
-      "XP: #{sprintf("%3d", @player.xp)}",
+      "HP: #{@player.hp}/#{@player.max_hp}",
+      "XP: #{@player.xp}/#{@player.xp_for_next_level}",
+      "Lvl: #{@player.level}",
       "Mon: #{monsters.count}"
     ].join(" | ")
   end
