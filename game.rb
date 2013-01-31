@@ -12,10 +12,15 @@ class Game
     @height = height
     @objects = []
     @exit_message = "Bye!"
+    @log = File.open("log", "a")
 
     place_walls
     place_player
     place_monsters
+  end
+
+  def log(line = "")
+    @log.puts(line)
   end
 
   def place_walls
