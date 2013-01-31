@@ -1,6 +1,5 @@
 require 'bundler/setup'
 require 'gaminator'
-require 'debugger'
 
 $LOAD_PATH << File.expand_path('.')
 
