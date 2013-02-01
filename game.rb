@@ -6,8 +6,8 @@ require 'wall'
 class Game
   DIRECTIONS = [:up, :down, :left, :right]
 
-  MONSTER_SPAWN_RATE = 0.5
-  FIRST_AID_DROP_RATE = 0.1
+  MONSTER_SPAWN_RATE = 0.7
+  FIRST_AID_DROP_RATE = 0.15
 
   attr_reader :objects, :width, :height, :exit_message, :player
 

@@ -30,7 +30,7 @@ class Player < Creature
   end
 
   def max_mana
-    @level
+    @level / 2
   end
 
   def wants_to_attack?(creature)
