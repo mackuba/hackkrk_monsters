@@ -73,7 +73,7 @@ class Player < Creature
   end
 
   def speed
-    0.7
+    0.9
   end
 
   def perform_action

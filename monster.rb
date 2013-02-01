@@ -5,7 +5,8 @@ class Monster < Creature
     [1, 25, '&', Curses::COLOR_MAGENTA],
     [2, 50, '$', Curses::COLOR_BLUE],
     [4, 70, '?', Curses::COLOR_CYAN],
-    [8, 90, '@', Curses::COLOR_RED]
+    [8, 90, '@', Curses::COLOR_RED],
+    [10, 100, 'X', Curses::COLOR_MAGENTA]
   ]
 
   attr_reader :max_hp, :color, :speed, :char, :level

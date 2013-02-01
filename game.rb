@@ -77,7 +77,8 @@ class Game
       when points < 800 then 1
       when points < 2000 then 2
       when points < 3600 then 3
-      else 4
+      when points < 5500 then 4
+      else 5
     end
   end
 
@@ -169,7 +170,7 @@ class Game
 
     @objects.each { |o| o.live if o.alive? }
 
-    random_event(MONSTER_SPAWN_RATE) { place_monster }
+    random_event(MONSTER_SPAWN_RATE * (1.1 ** @player.level)) { place_monster }
     random_event(FIRST_AID_DROP_RATE) { place_first_aid }
   end
 
