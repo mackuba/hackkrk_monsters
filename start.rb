@@ -5,4 +5,4 @@ $LOAD_PATH << File.expand_path('.')
 
 require 'game'
 
-Gaminator::Runner.new(Game, :rows => 24, :cols => 80).run
+Gaminator::Runner.new(Game, :rows => 24, :cols => 100).run

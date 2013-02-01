@@ -59,6 +59,17 @@ class Game
     @objects << first_aid
   end
 
+  def cast_storm(x, y)
+    dead = @objects.select { |o| (o.x - x).abs <= 2 && (o.y - y).abs <= 2 && o.is_a?(Creature) && o != @player }
+    dead.each do |o|
+      @player.add_kill(o)
+      cleanup_object(o)
+    end
+
+    storm = PsionicStorm.new(self, x - 2, y - 2)
+    @objects << storm
+  end
+
   def monster_level
     points = rand(1000) * @player.level
 
@@ -108,8 +119,9 @@ class Game
 
   def textbox_content
     [
-      "jkli=move, q=quit, space=pause",
+      "jkli=move, s=magic, q=quit, space=pause",
       "HP: #{@player.hp}/#{@player.max_hp}",
+      "Mana: #{@player.mana}/#{@player.max_mana}",
       "XP: #{@player.xp}/#{@player.xp_for_next_level}",
       "Lvl: #{@player.level}",
       "Mon: #{monsters.count}"
@@ -123,7 +135,8 @@ class Game
       'k' => :move_down,
       'l' => :move_right,
       'i' => :move_up,
-      ' ' => :pause
+      ' ' => :pause,
+      's' => :cast_spell
       # Curses::KEY_LEFT => :move_left
       # 27 => :handle_arrow
     }
@@ -159,6 +172,10 @@ class Game
 
   def pause
     @pause = !@pause
+  end
+
+  def cast_spell
+    @player.cast_spell
   end
 
   def random_event(rate, &block)

@@ -1,12 +1,14 @@
 require 'creature'
 require 'first_aid'
+require 'psionic_storm'
 
 class Player < Creature
-  attr_reader :xp, :level
+  attr_reader :xp, :level, :mana
 
   def initialize(*args)
     @xp = 0
     @level = 1
+    @mana = max_mana
 
     super
   end
@@ -27,6 +29,10 @@ class Player < Creature
     8 + @level * 2
   end
 
+  def max_mana
+    @level
+  end
+
   def wants_to_attack?(creature)
     true
   end
@@ -37,6 +43,13 @@ class Player < Creature
     @xp += victim.level
 
     level_up if @xp >= xp_for_next_level
+  end
+
+  def cast_spell
+    return unless @mana > 0
+
+    @game.cast_storm(@x, @y)
+    @mana -= 1
   end
 
   def level_up
@@ -57,5 +70,13 @@ class Player < Creature
     when FirstAid
       @hp = [@hp + object.size, max_hp].min
     end
+  end
+
+  def speed
+    0.7
+  end
+
+  def perform_action
+    @mana = [@mana + 1, max_mana].min
   end
 end
