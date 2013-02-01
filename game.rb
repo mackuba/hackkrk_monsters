@@ -118,14 +118,17 @@ class Game
   end
 
   def textbox_content
-    [
-      "jkli=move, s=magic, q=quit, space=pause",
+    keys = "jkli=move, s=magic, q=quit, space=pause"
+
+    data = [
       "HP: #{@player.hp}/#{@player.max_hp}",
       "Mana: #{@player.mana}/#{@player.max_mana}",
       "XP: #{@player.xp}/#{@player.xp_for_next_level}",
       "Lvl: #{@player.level}",
       "Mon: #{monsters.count}"
-    ].join(" | ")
+    ]
+
+    keys + "\n|  " + data.join(" | ")
   end
 
   def input_map
